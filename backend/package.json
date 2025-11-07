@@ -1,0 +1,39 @@
+{
+  "name": "diplom-room",
+  "version": "1.0.0",
+  "description": "This is Mysql+ExpressJS+React+NodeJS",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "start": "cross-env NODE_ENV=production node server"
+  },
+  "author": "Enhbayr",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^3.0.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "cuid": "^3.0.0",
+    "dayjs": "^1.11.13",
+    "dayjs-plugin-utc": "^0.1.2",
+    "dotenv": "^8.6.0",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.1.4",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.10.0",
+    "sequelize": "^5.22.5",
+    "transliteration": "^2.1.8"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "nodemon": "^2.0.22"
+  }
+}
