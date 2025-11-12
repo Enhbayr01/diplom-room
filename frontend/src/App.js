@@ -1,21 +1,25 @@
-// src/App.js
+// src/App.jsx
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Register from '../src/page/Register';
+import Login from '../src/page/login';
+import Home from '../src/page/Home';
+import RoomDetail from './page/roomdetail';
 import './App.css';
-import Login from './components/login';
 
 function App() {
-    return (
-        <div className="App" style={{
-            background: 'linear-gradient(135deg, #1e3c72, #2a5298)',
-            minHeight: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '20px'
-        }}>
-            <Login />
-        </div>
-    );
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home/>} />
+           <Route path="/rooms/:id" element={<RoomDetail/>} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

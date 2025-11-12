@@ -1,6 +1,8 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import '../style/login.css';
+import '../styles/login.css';
+import logo from '../assets/logo.png';
+
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -28,7 +30,9 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className="welcome-section">
-                <div className="university-logo">🎓</div>
+                <div className="university-logo">
+                     <img src={logo} alt="MUIS logo" />
+                </div>
                 <h1>Монгол улсын их сургууль</h1>
                 <p>МУИС-ийн хурлын өрөө захиалах программд тавтай морилно уу</p>
             </div>
@@ -69,7 +73,7 @@ const Login = () => {
                     <button type="submit" className="login-button">Нэвтрэх</button>
                     
                     <div className="register-link">
-                        Шинэ хэрэглэгч үү? <a href="#register">Бүртгүүлэх</a>
+                        Шинэ хэрэглэгч үү? <a href="/register">Бүртгүүлэх</a>
                     </div>
                 </form>
             </div>
