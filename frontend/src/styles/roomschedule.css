@@ -1,0 +1,82 @@
+/* Ерөнхий wrapper */
+.sw-wrap {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+/* Хүснэгтийн мөр, багана */
+.sw-row {
+  display: grid;
+  grid-template-columns: 110px repeat(7, 1fr);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.time-col {
+  padding: 10px 8px;
+  background: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  font-weight: 500;
+}
+
+/* Нэг нүд – default */
+.cell {
+  padding: 10px 4px;
+  border-right: 1px solid #e5e7eb;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  background: #ffffff;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  font-size: 13px;
+}
+
+/* Захиалсан */
+.cell.booked {
+  background: #f9fafb;
+  color: #b91c1c;           /* бараан улаан текст */
+}
+
+/* Захиалаагүй */
+.cell.free {
+  background: #ffffff;
+  color: #166534;           /* ногоон текст */
+}
+
+/* Hover – зөвхөн захиалаагүй дээр */
+.cell.free:hover {
+  background: #f3f4ff;      /* маш зөөлөн хөх */
+}
+
+/* Сонгосон нүд */
+.cell.selected {
+  background: #eef2ff;
+  color: #1d4ed8;
+  box-shadow: inset 0 0 0 2px #1d4ed8;
+}
+
+/* Header хоногууд */
+.sw-header {
+  display: grid;
+  grid-template-columns: 40px repeat(7, 1fr) 40px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sw-header .day {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.sw-header .day.active {
+  font-weight: 600;
+  border-bottom: 2px solid #4f46e5;
+}
+
+.sw-header .nav {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
