@@ -73,7 +73,7 @@ const ChangePassword = () => {
 
   // Хаах функц
   const handleClose = () => {
-    window.history.back();
+    window.location.href = "/home";
   };
 
   return (

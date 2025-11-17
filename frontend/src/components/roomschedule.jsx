@@ -59,12 +59,7 @@ export default function ScheduleWeekMulti({ roomId, startDate = new Date() }) {
       }
     });
   };
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
-
+  
   const submitBooking = async (e) => {
     e.preventDefault();
     if (selected.length === 0) {

@@ -6,6 +6,7 @@ import Footer from "../components/footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser} from '@fortawesome/free-solid-svg-icons';
 
+
 const Profile = () => {
   // Жишээ – дараа нь backend-ээс авдаг болно
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const Profile = () => {
 
   // Хаах функц
   const handleClose = () => {
-    window.history.back();
+    window.location.href = "/home";
   };
 
   return (
@@ -120,6 +121,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
       <Footer/>
     </div>
     

@@ -72,7 +72,7 @@ const MyBookings = () => {
 
   // Хаах функц - өмнөх хуудас руу буцах
   const handleClose = () => {
-    window.history.back();
+    window.location.href = "/home";
   };
 
   return (
