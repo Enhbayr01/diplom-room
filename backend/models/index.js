@@ -24,7 +24,6 @@ const sequelize = new Sequelize(
 // Model-уудыг ачаалах
 const User = require('./user')(sequelize, Sequelize.DataTypes);
 const Room = require('./room')(sequelize, Sequelize.DataTypes);
-const RoomCategory = require('./roomCategory')(sequelize, Sequelize.DataTypes);
 const RoomImage = require('./roomImage')(sequelize, Sequelize.DataTypes);
 const RoomItem = require('./roomItem')(sequelize, Sequelize.DataTypes);
 const Order = require('./order')(sequelize, Sequelize.DataTypes);
@@ -34,7 +33,6 @@ const Notification = require('./notification')(sequelize, Sequelize.DataTypes);
 const models = {
   User,
   Room,
-  RoomCategory,
   RoomImage,
   RoomItem,
   Order,

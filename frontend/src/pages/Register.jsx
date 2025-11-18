@@ -1,28 +1,30 @@
-// page/Register.js
+// src/pages/Register.js (БҮРЭН ЗАСВАРЛСАН)
 import React, { useState } from 'react';
-// import '../styles/register.css';
+import { useNavigate, Link } from 'react-router-dom';
 import '../styles/login.css';
 import logo from '../assets/logo.png';
+import { authService } from '../services/auth'; // ✅ ЗАСАГДСАН
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    username: '',
     email: '',
     phone: '',
     password: '',
     confirmPassword: '',
-    agreeTerms: false
+    company_name: ''
   });
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
     
     // Алдаа устгах
@@ -32,13 +34,16 @@ const Register = () => {
         [name]: ''
       }));
     }
+    if (apiError) setApiError('');
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Нэр оруулна уу';
+    if (!formData.username.trim()) {
+      newErrors.username = 'Нэвтрэх нэр оруулна уу';
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'Нэвтрэх нэр хамгийн багадаа 3 тэмдэгт байх ёстой';
     }
 
     if (!formData.email.trim()) {
@@ -63,10 +68,6 @@ const Register = () => {
       newErrors.confirmPassword = 'Нууц үг тохирохгүй байна';
     }
 
-    if (!formData.agreeTerms) {
-      newErrors.agreeTerms = 'Үйлчилгээний нөхцөл зөвшөөрөх ёстой';
-    }
-
     return newErrors;
   };
 
@@ -80,22 +81,40 @@ const Register = () => {
     }
 
     setIsLoading(true);
+    setApiError('');
 
     try {
-      // Энд бүртгэлийн API дуудах
-      console.log('Бүртгэлийн мэдээлэл:', formData);
+      // Backend рүү бүртгэлийн хүсэлт илгээх
+      const userData = {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        company_name: formData.company_name || null,
+        role: 'CUSTOMER' // Default role
+      };
+
+      console.log('Бүртгэлийн мэдээлэл:', userData);
+
+      const response = await authService.register(userData);
       
-      // Зохиомол ачаалал
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Амжилттай бүртгэгдлээ:', response);
       
-      alert('Амжилттай бүртгэгдлээ! Та нэвтрэх хэсэгрүү шилжинэ үү.');
-      
-      // Нэвтрэх хуудасруу шилжих
-      // window.location.href = '/login';
+      // Амжилттай бүртгэгдсэн бол нэвтрэх хуудас руу шилжих
+      alert('Амжилттай бүртгэгдлээ! Одоо нэвтрэнэ үү.');
+      navigate('/login');
       
     } catch (error) {
       console.error('Бүртгэлийн алдаа:', error);
-      alert('Бүртгэл амжилтгүй боллоо. Дахин оролдоно уу.');
+      
+      // API алдааны messages
+      if (error.message?.includes('username') || error.message?.includes('Нэр')) {
+        setApiError('Энэ нэвтрэх нэр аль хэдийн бүртгэгдсэн байна');
+      } else if (error.message?.includes('email') || error.message?.includes('Имэйл')) {
+        setApiError('Энэ имэйл аль хэдийн бүртгэгдсэн байна');
+      } else {
+        setApiError(error.message || 'Бүртгэл амжилтгүй боллоо. Дахин оролдоно уу.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -114,22 +133,30 @@ const Register = () => {
       <div className="login-form-section">
         <h2>Бүртгүүлэх</h2>
       
+        {/* API алдаа messages харуулах */}
+        {apiError && (
+          <div className="error-message">
+            {apiError}
+          </div>
+        )}
+      
         <form onSubmit={handleSubmit} className="register-form">
-          {/* Нэр - цуваа байдлаар */}
+          {/* Нэвтрэх нэр - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
-              <label htmlFor="lastName">Нэр</label>
+              <label htmlFor="username">Нэвтрэх нэр *</label>
               <div className="input-container">
                 <input
                   type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
+                  id="username"
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
-                  placeholder="Нэрээ оруулна уу"
-                  className={errors.lastName ? 'error' : ''}
+                  placeholder="Нэвтрэх нэрээ оруулна уу"
+                  className={errors.username ? 'error' : ''}
+                  disabled={isLoading}
                 />
-                {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+                {errors.username && <span className="error-text">{errors.username}</span>}
               </div>
             </div>
           </div>
@@ -137,7 +164,7 @@ const Register = () => {
           {/* Имэйл - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
-              <label htmlFor="email">Имэйл хаяг</label>
+              <label htmlFor="email">Имэйл хаяг *</label>
               <div className="input-container">
                 <input
                   type="email"
@@ -147,6 +174,7 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Имэйл хаягаа оруулна уу"
                   className={errors.email ? 'error' : ''}
+                  disabled={isLoading}
                 />
                 {errors.email && <span className="error-text">{errors.email}</span>}
               </div>
@@ -156,7 +184,7 @@ const Register = () => {
           {/* Утасны дугаар - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
-              <label htmlFor="phone">Утасны дугаар</label>
+              <label htmlFor="phone">Утасны дугаар *</label>
               <div className="input-container">
                 <input
                   type="tel"
@@ -166,8 +194,27 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Утасны дугаараа оруулна уу"
                   className={errors.phone ? 'error' : ''}
+                  disabled={isLoading}
                 />
                 {errors.phone && <span className="error-text">{errors.phone}</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Компанийн нэр (optional) */}
+          <div className="form-row">
+            <div className="form-group horizontal">
+              <label htmlFor="company_name">Компанийн нэр</label>
+              <div className="input-container">
+                <input
+                  type="text"
+                  id="company_name"
+                  name="company_name"
+                  value={formData.company_name}
+                  onChange={handleChange}
+                  placeholder="Компанийн нэр (заавал биш)"
+                  disabled={isLoading}
+                />
               </div>
             </div>
           </div>
@@ -175,7 +222,7 @@ const Register = () => {
           {/* Нууц үг - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
-              <label htmlFor="password">Нууц үг</label>
+              <label htmlFor="password">Нууц үг *</label>
               <div className="input-container">
                 <input
                   type="password"
@@ -185,6 +232,7 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Нууц үгээ оруулна уу"
                   className={errors.password ? 'error' : ''}
+                  disabled={isLoading}
                 />
                 {errors.password && <span className="error-text">{errors.password}</span>}
               </div>
@@ -194,7 +242,7 @@ const Register = () => {
           {/* Нууц үг давтах - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
-              <label htmlFor="confirmPassword">Нууц үг давтах</label>
+              <label htmlFor="confirmPassword">Нууц үг давтах *</label>
               <div className="input-container">
                 <input
                   type="password"
@@ -204,6 +252,7 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Нууц үгээ давтан оруулна уу"
                   className={errors.confirmPassword ? 'error' : ''}
+                  disabled={isLoading}
                 />
                 {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
               </div>
@@ -224,7 +273,7 @@ const Register = () => {
           {/* Нэвтрэх холбоос */}
           <div className="form-row">
             <div className="register-link">
-              Бүртгэлтэй хэрэглэгч үү? <a href="/">Нэвтрэх</a>
+              Бүртгэлтэй хэрэглэгч үү? <Link to="/login">Нэвтрэх</Link>
             </div>
           </div>
         </form>

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middleware/protect");
+//const protect = require("../middleware/protect");
 const { 
   getNotifications,
   getNotificationById,
@@ -10,10 +10,10 @@ const {
 } = require("../controller/notifications");
 
 // Protect middleware ашиглах
-router.get("/", protect, getNotifications);
-router.get("/:id", protect, getNotificationById);
-router.post("/", protect, createNotification);   
-router.put("/:id/seen", protect, markAsSeen);
-router.delete("/:id", protect, deleteNotification);
+router.get("/",  getNotifications);
+router.get("/:id",  getNotificationById);
+router.post("/", createNotification);   
+router.put("/:id/seen",  markAsSeen);
+router.delete("/:id",  deleteNotification);
 
 module.exports = router;

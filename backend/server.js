@@ -47,18 +47,17 @@ const ordersRouter = require("./routes/order");
 const notificationsRouter = require("./routes/notification");
 const authRouter = require("./routes/auth");
 
+
 // Route-уудыг ашиглах
 app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/auth", authRouter);
+app.use('/api', require('./routes/roomImages'));
+app.use('/api', require('./routes/roomItems'));
 
-// --- Public routes (хүн бүрт нээлттэй)
-app.use("/api/users", usersRouter);
 
-// --- Protected routes (зөвхөн нэвтэрсэн хэрэглэгчдэд)
-app.use("/api/rooms", roomsRouter); // Өрөөг хүн бүр харж болно
 
 const protect = require("./middleware/protect");
 app.use("/api/orders", protect); // Эхлээд protect, дараа нь route

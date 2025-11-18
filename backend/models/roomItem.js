@@ -1,20 +1,41 @@
+// backend/models/roomItem.js
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   const RoomItem = sequelize.define(
     "RoomItem",
     {
-      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      item_name: { type: DataTypes.STRING(60), allowNull: false },
-      quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
-      room_id: { type: DataTypes.INTEGER, allowNull: false },
+      id: { 
+        type: DataTypes.INTEGER, 
+        primaryKey: true, 
+        autoIncrement: true 
+      },
+      room_id: { 
+        type: DataTypes.INTEGER, 
+        allowNull: false 
+      },
+      item_name: { 
+        type: DataTypes.STRING(100), 
+        allowNull: false 
+      },
+      quantity: { 
+        type: DataTypes.INTEGER, 
+        defaultValue: 1 
+      }
     },
     {
       tableName: "room_items",
       timestamps: false,
-      underscored: true,
     }
   );
+
+  // ASSOCIATE FUNC НЭМЭХ
+  RoomItem.associate = function(models) {
+    RoomItem.belongsTo(models.Room, {
+      foreignKey: 'room_id',
+      as: 'room'
+    });
+  };
 
   return RoomItem;
 };

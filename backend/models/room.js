@@ -1,3 +1,4 @@
+// backend/models/room.js
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -7,25 +8,31 @@ module.exports = (sequelize) => {
       id: { 
         type: DataTypes.INTEGER, 
         primaryKey: true, 
-        autoIncrement: true },
+        autoIncrement: true 
+      },
       room_number: { 
-        type: 
-        DataTypes.STRING(20), 
+        type: DataTypes.STRING(20), 
         allowNull: false, 
-        unique: true },
+        unique: true 
+      },
       location: { 
-        type: DataTypes.STRING(100) },
+        type: DataTypes.STRING(100) 
+      },
       capacity: { 
         type: DataTypes.INTEGER, 
-        allowNull: false },
+        allowNull: false 
+      },
       description: { 
-        type: DataTypes.TEXT },
+        type: DataTypes.TEXT 
+      },
       status: { 
         type: DataTypes.ENUM("ACTIVE", "INACTIVE"), 
-        defaultValue: "ACTIVE" },
-      category_id: { 
-        type: DataTypes.INTEGER, 
-        allowNull: true },
+        defaultValue: "ACTIVE" 
+      },
+      category: { 
+        type: DataTypes.STRING, 
+        allowNull: true 
+      },
     },
     {
       tableName: "room",
@@ -33,6 +40,22 @@ module.exports = (sequelize) => {
       underscored: true,
     }
   );
+
+  // ASSOCIATE FUNC НЭМЭХ
+  Room.associate = function(models) {
+    Room.hasMany(models.RoomImage, {
+      foreignKey: 'room_id',
+      as: 'roomImages'
+    });
+    Room.hasMany(models.RoomItem, {
+      foreignKey: 'room_id',
+      as: 'roomItems'
+    });
+    Room.hasMany(models.Order, {
+      foreignKey: 'room_id',
+      as: 'orders'
+    });
+  };
 
   return Room;
 };

@@ -1,3 +1,4 @@
+// backend/models/user.js
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -17,15 +18,9 @@ module.exports = (sequelize) => {
         allowNull: false, 
         unique: true 
       },
-      lastname: { 
-        type: DataTypes.STRING(40) 
-      },
       password: { 
         type: DataTypes.STRING(255), 
         allowNull: false 
-      },
-      firstname: { 
-        type: DataTypes.STRING(40) 
       },
       email: { 
         type: DataTypes.STRING(120), 
@@ -61,23 +56,20 @@ module.exports = (sequelize) => {
     }
   );
 
-  // Hook функцууд
-  User.beforeCreate(async (user) => {
+ // backend/models/user.js - HOOK функцуудыг шалгах
+User.beforeCreate(async (user) => {
+  try {
     if (user.password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);
     }
-  });
-
-  User.beforeUpdate(async (user) => {
-    if (user.changed('password') && user.password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-    }
-  });
-
-  // Instance methods
-  User.prototype.getJsonWebToken = function () {
+  } catch (error) {
+    console.error('Password hash алдаа:', error);
+    throw error;
+  }
+});
+  // Instance methods - JWT TOKEN ҮҮСГЭХ
+  User.prototype.getSignedJwtToken = function () {
     const token = jwt.sign(
       {
         id: this.id,
@@ -90,11 +82,11 @@ module.exports = (sequelize) => {
   };
 
   // Check password
-  User.prototype.CheckPass = async function (pass) {
-    return await bcrypt.compare(pass, this.password);
+  User.prototype.checkPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
   };
 
-  User.prototype.generatePasswordChangeToken = function () {
+  User.prototype.generatePasswordResetToken = function () {
     const resetToken = crypto.randomBytes(20).toString("hex");
     this.resetPasswordToken = crypto
       .createHash("sha256")
