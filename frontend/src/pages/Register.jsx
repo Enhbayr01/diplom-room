@@ -1,9 +1,8 @@
-// src/pages/Register.js (БҮРЭН ЗАСВАРЛСАН)
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/login.css';
 import logo from '../assets/logo.png';
-import { authService } from '../services/auth'; // ✅ ЗАСАГДСАН
+import { authService } from '../services/auth';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -141,7 +140,6 @@ const Register = () => {
         )}
       
         <form onSubmit={handleSubmit} className="register-form">
-          {/* Нэвтрэх нэр - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="username">Нэвтрэх нэр *</label>
@@ -161,7 +159,6 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Имэйл - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="email">Имэйл хаяг *</label>
@@ -181,7 +178,6 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Утасны дугаар - цуваа байдлаар */}
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="phone">Утасны дугаар *</label>
@@ -201,7 +197,6 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Компанийн нэр (optional) */}
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="company_name">Компанийн нэр</label>
@@ -219,7 +214,7 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Нууц үг - цуваа байдлаар */}
+
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="password">Нууц үг *</label>
@@ -239,7 +234,7 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Нууц үг давтах - цуваа байдлаар */}
+
           <div className="form-row">
             <div className="form-group horizontal">
               <label htmlFor="confirmPassword">Нууц үг давтах *</label>

@@ -1,4 +1,3 @@
-// backend/models/roomImage.js - ШИНЭЧЛЭХ
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {

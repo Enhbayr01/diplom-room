@@ -1,4 +1,3 @@
-// backend/models/roomItem.js
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -29,7 +28,6 @@ module.exports = (sequelize) => {
     }
   );
 
-  // ASSOCIATE FUNC НЭМЭХ
   RoomItem.associate = function(models) {
     RoomItem.belongsTo(models.Room, {
       foreignKey: 'room_id',

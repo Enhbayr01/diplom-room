@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       },
     }
   );
-  // backend/models/order.js - associate функц нэмэх
+  
 Order.associate = function(models) {
   Order.belongsTo(models.User, {
     foreignKey: 'user_id',

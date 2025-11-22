@@ -1,4 +1,3 @@
-// backend/models/user.js
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -56,7 +55,7 @@ module.exports = (sequelize) => {
     }
   );
 
- // backend/models/user.js - HOOK функцуудыг шалгах
+ 
 User.beforeCreate(async (user) => {
   try {
     if (user.password) {
@@ -68,7 +67,6 @@ User.beforeCreate(async (user) => {
     throw error;
   }
 });
-  // Instance methods - JWT TOKEN ҮҮСГЭХ
   User.prototype.getSignedJwtToken = function () {
     const token = jwt.sign(
       {
